@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Granjita | Venta de Huevos y Gallinas</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="https://kit.fontawesome.com/7d9b6d89b5.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="bg-gray-100">
+        <div
+id="loader"
+class="fixed inset-0 bg-white flex justify-center items-center z-50">
+
+    <div
+    class="w-20 h-20 border-8 border-green-700 border-t-transparent rounded-full animate-spin">
+
+    </div>
+
+</div>
+
+<!-- ==========================
+        ENCABEZADO
+========================== -->
+
+<header class="bg-green-700 text-white shadow-lg">
+
+<div class="container mx-auto">
+
+<div class="flex justify-between items-center py-4">
+
+<div class="flex items-center">
+
+<i class="fa-solid fa-egg text-5xl mr-3 text-yellow-300"></i>
+
+<div>
+
+<h1 class="text-3xl font-bold">
+
+La Granjita
+
+</h1>
+
+<p class="text-sm">
+
+Huevos y Gallinas Frescas
+
+</p>
+
+</div>
+
+</div>
+
+
+<nav class="flex items-center">
+
+    <!-- Menú escritorio -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-lg items-center">
+
+        <li><a href="index.html">Inicio</a></li>
+
+        <li><a href="productos.html">Productos</a></li>
+
+        <li><a href="registro.html">Registro</a></li>
+
+        <li><a href="login.html">Iniciar Sesión</a></li>
+
+        <li>
+
+            <a href="carrito.html">
+
+                Carrito 🛒
+
+                <span id="contadorCarrito"
+                class="bg-red-600 px-2 py-1 rounded-full text-sm">
+
+                    0
+
+                </span>
+
+            </a>
+
+        </li>
+
+        <li><a href="contacto.html">Contacto</a></li>
+
+    </ul>
+
+    <!-- Botón móvil -->
+
+    <button
+    id="menu-btn"
+    class="md:hidden text-3xl ml-5">
+
+        ☰
+
+    </button>
+
+</nav>
+
+</div>
+
+
+</header>
+
+<!-- ==========================
+        HERO
+========================== -->
+
+<section class="bg-yellow-100">
+
+<div class="container mx-auto py-16">
+
+<div class="hero grid md:grid-cols-2 gap-10 items-center fade">
+
+<div>
+
+<h2 class="text-5xl font-bold text-green-700">
+
+Los mejores huevos frescos
+
+</h2>
+
+<p class="mt-6 text-gray-700 text-lg">
+
+Compra huevos AA, gallinas ponedoras y productos avícolas directamente desde nuestra granja.
+
+</p>
+
+<button class="mt-8 bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-lg">
+<a href="productos.html"
+class="inline-block mt-8 bg-green-700 hover :bg-green-800 text-white px-8 py-3 rounded-lg">
+Comprar Ahora
+</a>
+</button>
+
+</div>
+
+<div>
+
+<img
+src="https://previews.123rf.com/images/reflexpixel/reflexpixel2501/reflexpixel250100078/240128235-free-range-poultry-with-healthy-diet.avif"
+class="rounded-xl shadow-xl">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+        BUSCADOR
+========================== -->
+
+<div class="flex buscador">
+
+<input
+id="buscador"
+type="text"
+placeholder="Buscar productos..."
+class="w-full border rounded-l-lg p-4">
+
+<button
+class="bg-green-700 text-white px-8 rounded-r-lg">
+
+Buscar
+
+</button>
+
+</div>
+
+<!-- ==========================
+        CATEGORÍAS
+========================== -->
+
+<section class="container mx-auto py-14">
+
+<h2 class="text-3xl font-bold text-center mb-10">
+
+Categorías
+
+</h2>
+
+<div class="categorias grid md:grid-cols-4 gap-6">
+
+<div class="categoria bg-white rounded-xl shadow p-8 text-center fade">
+
+<i class="fa-solid fa-egg text-5xl text-yellow-500"></i>
+
+<h3 class="mt-4 text-xl font-bold">
+
+Huevos AA
+
+</h3>
+
+</div>
+
+<div class="categoria bg-white rounded-xl shadow p-8 text-center fade">
+<i class="fa-solid fa-egg text-5xl text-orange-400"></i>
+
+<h3 class="mt-4 text-xl font-bold">
+
+Huevos Criollos
+
+</h3>
+
+</div>
+
+<div class="categoria bg-white rounded-xl shadow p-8 text-center fade">
+
+<i class="fa-solid fa-drumstick-bite text-5xl text-red-500"></i>
+
+<h3 class="mt-4 text-xl font-bold">
+
+Gallinas
+
+</h3>
+
+</div>
+
+<div class="bg-white rounded-xl shadow p-8 text-center">
+
+<i class="fa-solid fa-truck text-5xl text-green-600"></i>
+
+<h3 class="mt-4 text-xl font-bold">
+
+Domicilios
+
+</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+        PRODUCTOS
+========================== -->
+
+<section class="container mx-auto py-10">
+
+<h2 class="text-3xl font-bold text-center mb-12">
+
+Productos Destacados
+
+</h2>
+
+<div class="productos grid md:grid-cols-3 gap-8">
+
+<div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+<img src="https://previews.123rf.com/images/batuhantoker/batuhantoker2004/batuhantoker200400040/144941514-overhead-view-of-brown-chicken-eggs-in-an-open-egg-box-isolated-on-turquoise-fresh-chicken-eggs.avif">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold">
+
+Huevos AA
+
+</h3>
+
+<p class="text-gray-600 mt-2">
+
+Bandeja por 30 unidades.
+
+</p>
+
+<p class="text-green-700 text-3xl font-bold mt-4">
+
+$18.000
+
+</p>
+
+<button
+class="btn-comprar bg-green-700 text-white w-full py-3 rounded mt-5">
+
+Agregar al carrito
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+<img src="https://previews.123rf.com/images/npdstock/npdstock2102/npdstock210200046/163962872-the-rhode-island-red-chicken-portrait-with-indoor-low-lighting.avif">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold">
+
+Gallina Ponedora
+
+</h3>
+
+<p class="text-gray-600 mt-2">
+
+Lista para producción.
+
+</p>
+
+<p class="text-green-700 text-3xl font-bold mt-4">
+
+$45.000
+
+</p>
+
+<button
+class="btn-comprar bg-green-700 text-white w-full py-3 rounded mt-5">
+
+Agregar al carrito
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+<img src="https://previews.123rf.com/images/photopaper/photopaper2101/photopaper210100049/163875482-fresh-chicken-eggs-on-burlap-sack-top-view-flat-lay.avif">
+
+<div class="p-6">
+
+<h3 class="text-2xl font-bold">
+
+Huevos Criollos
+
+</h3>
+
+<p class="text-gray-600 mt-2">
+
+Huevos frescos de campo.
+
+</p>
+
+<p class="text-green-700 text-3xl font-bold mt-4">
+
+$22.000
+
+</p>
+
+<button
+class="btn-comprar bg-green-700 text-white w-full py-3 rounded mt-5">
+
+Agregar al carrito
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+        BENEFICIOS
+========================== -->
+
+<section class="bg-green-700 text-white py-16">
+
+<div class="container mx-auto">
+
+<div class="beneficios grid md:grid-cols-3 gap-8 text-center">
+
+<div class="beneficio fade">
+
+<i class="fa-solid fa-truck-fast text-5xl"></i>
+
+<h3 class="text-2xl mt-5 font-bold">
+
+Envíos Rápidos
+
+</h3>
+
+</div>
+
+<div class="beneficio fade">
+
+<i class="fa-solid fa-shield-halved text-5xl"></i>
+
+<h3 class="text-2xl mt-5 font-bold">
+
+Compra Segura
+
+</h3>
+
+</div>
+
+<div class="beneficio fade">
+
+<i class="fa-solid fa-headset text-5xl"></i>
+
+<h3 class="text-2xl mt-5 font-bold">
+
+Atención 24/7
+
+</h3>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+        PIE DE PÁGINA
+========================== -->
+
+<footer class="bg-gray-900 text-white py-10">
+
+<div class="container mx-auto grid md:grid-cols-3 gap-10">
+
+<div>
+
+<h3 class="text-2xl font-bold">
+
+La Granjita
+
+</h3>
+
+<p class="mt-3">
+
+Venta de huevos y gallinas de excelente calidad.
+
+</p>
+
+</div>
+
+<div>
+
+<h3 class="text-xl font-bold">
+
+Enlaces
+
+</h3>
+
+<ul class="mt-3 space-y-2">
+
+<li>Inicio</li>
+<li>Productos</li>
+<li>Registro</li>
+<li>Contacto</li>
+
+</ul>
+
+</div>
+
+<div>
+
+<h3 class="text-xl font-bold">
+
+Síguenos
+
+</h3>
+
+<div class="text-3xl mt-4 space-x-4">
+
+<i class="fab fa-facebook"></i>
+<i class="fab fa-instagram"></i>
+<i class="fab fa-whatsapp"></i>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="text-center mt-10 border-t border-gray-700 pt-5">
+
+© <span id="anio"></span>
+
+La Granjita
+
+Todos los derechos reservados.
+
+</div>
+
+</footer>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

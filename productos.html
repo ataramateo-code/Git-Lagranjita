@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Productos | La Granjita</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ==========================
+        HEADER
+=========================== -->
+
+<header class="bg-green-700 shadow-lg sticky top-0 z-50">
+
+    <div class="container mx-auto">
+
+        <div class="flex justify-between items-center py-4">
+
+            <!-- LOGO -->
+
+            <div class="flex items-center">
+
+                <i class="fa-solid fa-egg text-yellow-300 text-5xl mr-3"></i>
+
+                <div>
+
+                    <h1 class="text-white text-3xl font-bold">
+
+                        La Granjita
+
+                    </h1>
+
+                    <p class="text-green-100">
+
+                        Venta de Huevos y Gallinas
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- MENÚ -->
+
+            <nav>
+
+                <ul class="flex space-x-8 text-white font-semibold">
+
+                    <li>
+
+                        <a href="index.html"
+                        class="hover:text-yellow-300">
+
+                            Inicio
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="productos.html"
+                        class="text-yellow-300">
+
+                            Productos
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="registro.html"
+                        class="hover:text-yellow-300">
+
+                            Registro
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="login.html"
+                        class="hover:text-yellow-300">
+
+                            Iniciar Sesión
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="carrito.html"
+                        class="hover:text-yellow-300">
+
+                            🛒 Carrito
+
+                            <span id="contadorCarrito"
+                                class="bg-red-600 rounded-full px-2 py-1 text-sm">
+
+                                0
+
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a href="contacto.html"
+                        class="hover:text-yellow-300">
+
+                            Contacto
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- ==========================
+        BANNER
+=========================== -->
+
+<section class="bg-yellow-100">
+
+    <div class="container mx-auto py-14">
+
+        <div class="text-center">
+
+            <h2 class="text-5xl font-bold text-green-700">
+
+                Nuestros Productos
+
+            </h2>
+
+            <p class="text-xl text-gray-700 mt-5">
+
+                Encuentra huevos frescos, gallinas ponedoras y productos avícolas
+                de excelente calidad.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        BUSCADOR
+=========================== -->
+
+<section class="bg-white shadow">
+
+    <div class="container mx-auto py-6">
+
+        <div class="flex buscador">
+
+            <input
+
+                id="buscador"
+
+                type="text"
+
+                placeholder="Buscar productos..."
+
+                class="w-full border rounded-l-lg p-4">
+
+            <button
+
+                class="bg-green-700 text-white px-10 rounded-r-lg">
+
+                <i class="fa-solid fa-search"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        FILTROS
+=========================== -->
+
+<section class="container mx-auto py-10">
+
+    <div class="grid md:grid-cols-5 gap-4">
+
+        <button class="btn-verde">
+
+            Todos
+
+        </button>
+
+        <button class="btn-verde">
+
+            Huevos AA
+
+        </button>
+
+        <button class="btn-verde">
+
+            Huevos Criollos
+
+        </button>
+
+        <button class="btn-verde">
+
+            Gallinas
+
+        </button>
+
+        <button class="btn-verde">
+
+            Accesorios
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        PRODUCTOS
+=========================== -->
+
+<section class="container mx-auto pb-16">
+
+    <div class="productos grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+        <!-- ==========================
+                PRODUCTO 1
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <div class="relative">
+                <img src="https://previews.123rf.com/images/feelart/feelart1401/feelart140100097/25228776-egg-box-on-white-background.avif" alt="Huevos AA">
+
+                <span class="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-sm">
+                    -10%
+                </span>
+            </div>
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Huevos AA x6</h3>
+
+                <div class="text-yellow-500 my-2">★★★★★</div>
+
+                <p class="text-gray-500 line-through">$20.000</p>
+
+                <h2 class="text-3xl text-green-700 font-bold">$18.000</h2>
+
+                <p class="text-green-700 mt-2">✔ Disponible</p>
+
+                <div class="flex gap-2 mt-5">
+
+                    <button class="btn-comprar flex-1 bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 transition">
+                        <i class="fa-solid fa-cart-shopping"></i> Comprar
+                    </button>
+
+                    <button class="bg-gray-200 px-4 rounded-lg hover:bg-gray-300 transition">
+                        ❤
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================
+                PRODUCTO 2
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <img src="https://previews.123rf.com/images/kosmoden22/kosmoden222203/kosmoden22220300074/183925254-brown-eggs-in-eco-packaging-made-from-recycled-materials-on-an-isolated-light-yellow-background.avif" alt="Huevos AAA">
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Huevos AAA x12</h3>
+
+                <div class="text-yellow-500 my-2">★★★★★</div>
+
+                <h2 class="text-3xl text-green-700 font-bold">$21.500</h2>
+
+                <p class="text-green-700 mt-2">✔ Disponible</p>
+
+                <button class="btn-comprar w-full bg-green-700 text-white py-3 rounded-lg mt-4 hover:bg-green-800 transition">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================
+                PRODUCTO 3
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <img src="https://previews.123rf.com/images/khan05/khan052602/khan05260265772/297325099-brown-hen-with-red-comb-on-a-farm-close-up.avif" alt="Gallina Ponedora">
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Gallina Ponedora</h3>
+
+                <div class="text-yellow-500 my-2">★★★★☆</div>
+
+                <h2 class="text-3xl text-green-700 font-bold">$45.000</h2>
+
+                <p class="text-green-700 mt-2">✔ Disponible</p>
+
+                <button class="btn-comprar w-full bg-green-700 text-white py-3 rounded-lg mt-4 hover:bg-green-800 transition">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================
+                PRODUCTO 4
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <img src="https://previews.123rf.com/images/bazru/bazru2102/bazru210200030/163279042-domestic-chicken-in-the-meadow.avif" alt="Gallina Criolla">
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Gallina Criolla</h3>
+
+                <div class="text-yellow-500 my-2">★★★★★</div>
+
+                <h2 class="text-3xl text-green-700 font-bold">$55.000</h2>
+
+                <p class="text-green-700 mt-2">✔ Disponible</p>
+
+                <button class="btn-comprar w-full bg-green-700 text-white py-3 rounded-lg mt-4 hover:bg-green-800 transition">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================
+                PRODUCTO 5
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <img src="https://previews.123rf.com/images/warongdech/warongdech1501/warongdech150100186/35671603-cock-close-up-on-green.avif" alt="Pollo Campesino">
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Pollo Campesino</h3>
+
+                <div class="text-yellow-500 my-2">★★★★☆</div>
+
+                <h2 class="text-3xl text-green-700 font-bold">$38.000</h2>
+
+                <p class="text-green-700 mt-2">✔ Disponible</p>
+
+                <button class="btn-comprar w-full bg-green-700 text-white py-3 rounded-lg mt-4 hover:bg-green-800 transition">
+                    Comprar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================
+                PRODUCTO 6
+        =========================== -->
+
+        <div class="card bg-white rounded-xl shadow-lg overflow-hidden fade">
+
+            <img src="https://previews.123rf.com/images/anmbph/anmbph1805/anmbph180500144/101996589-brown-chicken-eggs-in-the-large-cardboard-egg-tray-packaging-for-thirty-eggs-made-of-recycled-paper.avif" alt="Huevos Tipo A">
+
+            <div class="p-5">
+
+                <h3 class="text-xl font-bold">Huevos Tipo A x30</h3>
+
+                <div class="text-yellow-500 my-2">★★★★☆</div>
+
+                <p class="text-gray-500">
+                    Bandeja por 30 unidades.
+                </p>
+
+                <h2 class="text-3xl text-green-700 font-bold mt-3">
+                    $16.500
+                </h2>
+
+                <p class="text-green-700 mt-2">
+                    ✔ Disponible
+                </p>
+
+                <button class="btn-comprar w-full bg-green-700 text-white py-3 rounded-lg mt-5 hover:bg-green-800 transition">
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================
+        PAGINACIÓN
+=========================== -->
+
+<section class="container mx-auto py-10">
+
+    <div class="flex justify-center gap-3">
+
+        <button class="bg-green-700 text-white px-4 py-2 rounded-lg">
+            1
+        </button>
+
+        <button class="bg-white border px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white">
+            2
+        </button>
+
+        <button class="bg-white border px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white">
+            3
+        </button>
+
+        <button class="bg-white border px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white">
+            Siguiente »
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        PROMOCIÓN
+=========================== -->
+
+<section class="bg-green-700 text-white py-16">
+
+    <div class="container mx-auto text-center">
+
+        <h2 class="text-4xl font-bold">
+            ¡Aprovecha nuestras promociones!
+        </h2>
+
+        <p class="mt-4 text-xl">
+            Obtén descuentos especiales en compras por volumen para distribuidores y negocios.
+        </p>
+
+        <button class="mt-8 bg-yellow-300 text-green-900 px-8 py-3 rounded-lg font-bold hover:bg-yellow-400">
+            Ver Ofertas
+        </button>
+
+    </div>
+
+</section>
+<!-- ==========================
+        NEWSLETTER
+=========================== -->
+
+<section class="bg-yellow-100 py-16">
+
+    <div class="container mx-auto">
+
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-10">
+
+            <h2 class="text-3xl font-bold text-center text-green-700">
+
+                Suscríbete a nuestro boletín
+
+            </h2>
+
+            <p class="text-center text-gray-600 mt-4">
+
+                Recibe promociones, nuevos productos y descuentos exclusivos de La Granjita.
+
+            </p>
+
+            <form class="mt-8">
+
+                <div class="grid md:grid-cols-2 gap-4">
+
+                    <input
+                        type="text"
+                        placeholder="Nombre completo"
+                        class="border rounded-lg p-4 w-full">
+
+                    <input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        class="border rounded-lg p-4 w-full">
+
+                </div>
+
+                <button
+                    class="mt-6 w-full bg-green-700 hover:bg-green-800 text-white py-4 rounded-lg font-semibold">
+
+                    Suscribirme
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        INFORMACIÓN
+=========================== -->
+
+<section class="bg-white py-16">
+
+    <div class="container mx-auto">
+
+        <div class="grid md:grid-cols-4 gap-8">
+
+            <div class="text-center">
+
+                <i class="fa-solid fa-truck-fast text-5xl text-green-700 mb-4"></i>
+
+                <h3 class="text-xl font-bold">
+
+                    Envíos rápidos
+
+                </h3>
+
+                <p class="text-gray-600 mt-3">
+
+                    Entregas oportunas en toda la ciudad.
+
+                </p>
+
+            </div>
+
+            <div class="text-center">
+
+                <i class="fa-solid fa-shield-halved text-5xl text-green-700 mb-4"></i>
+
+                <h3 class="text-xl font-bold">
+
+                    Compra segura
+
+                </h3>
+
+                <p class="text-gray-600 mt-3">
+
+                    Protección de datos y pagos seguros.
+
+                </p>
+
+            </div>
+
+            <div class="text-center">
+
+                <i class="fa-solid fa-award text-5xl text-green-700 mb-4"></i>
+
+                <h3 class="text-xl font-bold">
+
+                    Calidad garantizada
+
+                </h3>
+
+                <p class="text-gray-600 mt-3">
+
+                    Productos frescos seleccionados diariamente.
+
+                </p>
+
+            </div>
+
+            <div class="text-center">
+
+                <i class="fa-solid fa-headset text-5xl text-green-700 mb-4"></i>
+
+                <h3 class="text-xl font-bold">
+
+                    Atención al cliente
+
+                </h3>
+
+                <p class="text-gray-600 mt-3">
+
+                    Soporte antes y después de tu compra.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================
+        FOOTER
+=========================== -->
+
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+
+    <div class="container mx-auto">
+
+        <div class="grid md:grid-cols-4 gap-10">
+
+            <div>
+
+                <h2 class="text-3xl font-bold text-yellow-300">
+
+                    La Granjita
+
+                </h2>
+
+                <p class="mt-4 text-gray-300">
+
+                    Tienda virtual especializada en la venta de huevos, gallinas y productos avícolas con calidad garantizada.
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <h3 class="text-xl font-semibold mb-4">
+
+                    Enlaces
+
+                </h3>
+
+                <ul class="space-y-3 text-gray-300">
+
+                    <li><a href="index.html" class="hover:text-yellow-300">Inicio</a></li>
+
+                    <li><a href="productos.html" class="hover:text-yellow-300">Productos</a></li>
+
+                    <li><a href="registro.html" class="hover:text-yellow-300">Registro</a></li>
+
+                    <li><a href="login.html" class="hover:text-yellow-300">Iniciar sesión</a></li>
+
+                    <li><a href="contacto.html" class="hover:text-yellow-300">Contacto</a></li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h3 class="text-xl font-semibold mb-4">
+
+                    Contáctanos
+
+                </h3>
+
+                <ul class="space-y-3 text-gray-300">
+
+                    <li>
+
+                        <i class="fa-solid fa-location-dot mr-2"></i>
+
+                        Colombia
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-phone mr-2"></i>
+
+                        +57 300 000 0000
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-envelope mr-2"></i>
+
+                        contacto@lagranjita.com
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div>
+
+                <h3 class="text-xl font-semibold mb-4">
+
+                    Redes Sociales
+
+                </h3>
+
+                <div class="flex gap-4 text-3xl">
+
+                    <a href="#" class="hover:text-blue-400">
+
+                        <i class="fab fa-facebook"></i>
+
+                    </a>
+
+                    <a href="#" class="hover:text-pink-500">
+
+                        <i class="fab fa-instagram"></i>
+
+                    </a>
+
+                    <a href="#" class="hover:text-green-500">
+
+                        <i class="fab fa-whatsapp"></i>
+
+                    </a>
+
+                    <a href="#" class="hover:text-red-500">
+
+                        <i class="fab fa-youtube"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr class="my-10 border-gray-700">
+
+        <div class="text-center text-gray-400">
+
+            © <span id="anio"></span> La Granjita.
+
+            Todos los derechos reservados.
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/productos.js"></script>
+
+</body>
+
+</html>
