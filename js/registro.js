@@ -1,3 +1,4 @@
+
 /*=========================================
         LA GRANJITA
         registro.js
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         REGISTRO
 =========================================*/
 
-function registrarUsuario(e) {
+async function registrarUsuario(e) {
 
     e.preventDefault();
 
@@ -29,6 +30,10 @@ function registrarUsuario(e) {
     const telefono = document.getElementById("telefono").value.trim();
     const password = document.getElementById("password").value;
     const confirmar = document.getElementById("confirmar").value;
+
+    /*=========================================
+            VALIDACIONES
+    =========================================*/
 
     if (
         !validarNombre(nombre) ||
@@ -63,43 +68,61 @@ function registrarUsuario(e) {
         return;
     }
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    /*=========================================
+            ENVIAR DATOS A NODE.JS
+    =========================================*/
 
-    const existe = usuarios.find(u => u.correo === correo);
+    try {
 
-    if (existe) {
+        const respuesta = await fetch("http://localhost:3000/registro", {
+            method: "POST",
 
-        mostrarMensaje("Este correo ya se encuentra registrado.", false);
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        return;
+            body: JSON.stringify({
+                nombre: nombre,
+                apellido: apellido,
+                correo: correo,
+                telefono: telefono,
+                password: password
+            })
+        });
 
+        const datos = await respuesta.json();
+
+        /*=========================================
+                RESPUESTA DEL SERVIDOR
+        =========================================*/
+
+        if (!respuesta.ok) {
+
+            mostrarMensaje(datos.mensaje, false);
+            return;
+        }
+
+        /*=========================================
+                REGISTRO EXITOSO
+        =========================================*/
+
+        mostrarMensaje(datos.mensaje, true);
+
+        document.getElementById("formRegistro").reset();
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2500);
+
+    } catch (error) {
+
+        console.error("Error al conectar con el servidor:", error);
+
+        mostrarMensaje(
+            "No se pudo conectar con el servidor. Verifique que Node.js esté ejecutándose.",
+            false
+        );
     }
-
-    const usuario = {
-
-        nombre,
-        apellido,
-        documento,
-        fecha,
-        correo,
-        telefono,
-        password
-
-    };
-
-    usuarios.push(usuario);
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-
-    mostrarMensaje("Registro exitoso.", true);
-
-    document.getElementById("formRegistro").reset();
-
-    setTimeout(() => {
-
-        window.location.href = "login.html";
-
-    }, 2500);
 
 }
 
@@ -154,11 +177,9 @@ function mostrarMensaje(texto, correcto) {
         mensaje.classList.add("bg-red-100");
         mensaje.classList.add("border-red-500");
         mensaje.classList.add("text-red-700");
-
     }
 
     mensaje.innerHTML = `
-
         <div class="flex items-center">
 
             <i class="fa-solid fa-circle-info text-3xl mr-4"></i>
@@ -166,9 +187,7 @@ function mostrarMensaje(texto, correcto) {
             <div>
 
                 <h3 class="font-bold text-xl">
-
                     ${correcto ? "Proceso exitoso" : "Error"}
-
                 </h3>
 
                 <p>${texto}</p>
@@ -176,15 +195,12 @@ function mostrarMensaje(texto, correcto) {
             </div>
 
         </div>
-
     `;
 
     window.scrollTo({
-
         top: 0,
-
         behavior: "smooth"
-
     });
 
 }
+
