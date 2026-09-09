@@ -430,7 +430,533 @@ app.post("/login", (req, res) => {
 
 });
 
+/*=========================================
+        CONSULTAR PRODUCTOS
+=========================================*/
 
+app.get("/productos", (req, res) => {
+
+    const sql = `
+        SELECT
+            id_producto,
+            nombre,
+            descripcion,
+            tipo,
+            precio,
+            stock
+        FROM producto
+        ORDER BY id_producto ASC
+    `;
+
+    conexion.query(
+        sql,
+        (error, resultados) => {
+
+            if (error) {
+
+                console.error(
+                    "❌ Error al consultar productos:",
+                    error
+                );
+
+                return res.status(500).json({
+                    mensaje:
+                        "Error al consultar los productos."
+                });
+
+            }
+
+            console.log(
+                "✅ Productos consultados:",
+                resultados.length
+            );
+
+            res.status(200).json(
+                resultados
+            );
+
+        }
+    );
+
+});
+
+/*=========================================
+        CREAR PEDIDO
+=========================================*/
+
+app.post("/pedidos", (req, res) => {
+
+    const {
+        id_usuario,
+        productos
+    } = req.body;
+
+
+    /*
+        Validamos los datos recibidos.
+    */
+
+    if (
+        !id_usuario ||
+        !Array.isArray(productos) ||
+        productos.length === 0
+    ) {
+
+        return res.status(400).json({
+            mensaje:
+                "El usuario y los productos son obligatorios."
+        });
+
+    }
+
+
+    /*
+        Calculamos la fecha actual.
+    */
+
+    const fecha =
+        new Date()
+            .toISOString()
+            .slice(0, 10);
+
+
+    /*
+        Iniciamos una transacción.
+        Esto permite que todas las operaciones
+        se confirmen juntas o se cancelen juntas.
+    */
+
+    conexion.beginTransaction(error => {
+
+        if (error) {
+
+            console.error(
+                "❌ Error al iniciar transacción:",
+                error
+            );
+
+            return res.status(500).json({
+                mensaje:
+                    "No se pudo iniciar la transacción."
+            });
+
+        }
+
+
+        /*
+            Consultamos nuevamente los productos
+            directamente desde MySQL.
+
+            NO confiamos en el precio enviado
+            por el navegador.
+        */
+
+        const ids = productos.map(
+            producto => producto.id_producto
+        );
+
+
+        const placeholders =
+            ids.map(() => "?").join(",");
+
+
+        const sqlProductos = `
+            SELECT
+                id_producto,
+                nombre,
+                precio,
+                stock
+            FROM producto
+            WHERE id_producto IN (${placeholders})
+            FOR UPDATE
+        `;
+
+
+        conexion.query(
+            sqlProductos,
+            ids,
+            (error, productosBD) => {
+
+                if (error) {
+
+                    return conexion.rollback(() => {
+
+                        console.error(
+                            "❌ Error al consultar productos:",
+                            error
+                        );
+
+                        res.status(500).json({
+                            mensaje:
+                                "No se pudieron consultar los productos."
+                        });
+
+                    });
+
+                }
+
+
+                /*
+                    Verificamos que todos los productos
+                    existan en la base de datos.
+                */
+
+                if (
+                    productosBD.length !==
+                    productos.length
+                ) {
+
+                    return conexion.rollback(() => {
+
+                        res.status(400).json({
+                            mensaje:
+                                "Uno o más productos ya no existen."
+                        });
+
+                    });
+
+                }
+
+
+                let total = 0;
+
+                const detalles = [];
+
+
+                /*
+                    Validamos stock y calculamos
+                    los valores directamente con
+                    los precios de MySQL.
+                */
+
+                for(
+                    const productoCarrito
+                    of productos
+                ){
+
+                    const productoBD =
+                        productosBD.find(
+                            producto =>
+                                producto.id_producto ===
+                                Number(
+                                    productoCarrito.id_producto
+                                )
+                        );
+
+
+                    if(!productoBD){
+
+                        return conexion.rollback(() => {
+
+                            res.status(400).json({
+                                mensaje:
+                                    "Producto no encontrado."
+                            });
+
+                        });
+
+                    }
+
+
+                    const cantidad =
+                        Number(
+                            productoCarrito.cantidad
+                        );
+
+
+                    /*
+                        Validamos que la cantidad
+                        sea un número válido.
+                    */
+
+                    if(
+                        !Number.isInteger(cantidad) ||
+                        cantidad <= 0
+                    ){
+
+                        return conexion.rollback(() => {
+
+                            res.status(400).json({
+                                mensaje:
+                                    "La cantidad del producto no es válida."
+                            });
+
+                        });
+
+                    }
+
+
+                    /*
+                        Comprobamos el stock disponible.
+                    */
+
+                    if(
+                        cantidad >
+                        productoBD.stock
+                    ){
+
+                        return conexion.rollback(() => {
+
+                            res.status(400).json({
+                                mensaje:
+                                    `No hay suficiente stock de ${productoBD.nombre}. Stock disponible: ${productoBD.stock}.`
+                            });
+
+                        });
+
+                    }
+
+
+                    const precio =
+                        Number(
+                            productoBD.precio
+                        );
+
+
+                    const subtotal =
+                        cantidad * precio;
+
+
+                    total += subtotal;
+
+
+                    detalles.push({
+
+                        id_producto:
+                            productoBD.id_producto,
+
+                        cantidad:
+                            cantidad,
+
+                        precio:
+                            precio,
+
+                        subtotal:
+                            subtotal
+
+                    });
+
+                }
+
+
+                /*
+                    Creamos el pedido.
+                */
+
+                const sqlPedido = `
+                    INSERT INTO pedido
+                    (
+                        id_usuario,
+                        fecha,
+                        estado,
+                        total
+                    )
+                    VALUES (?, ?, ?, ?)
+                `;
+
+
+                conexion.query(
+                    sqlPedido,
+                    [
+                        id_usuario,
+                        fecha,
+                        "Pendiente",
+                        total
+                    ],
+                    (error, resultado) => {
+
+                        if(error){
+
+                            return conexion.rollback(() => {
+
+                                console.error(
+                                    "❌ Error al crear pedido:",
+                                    error
+                                );
+
+                                res.status(500).json({
+                                    mensaje:
+                                        "No se pudo crear el pedido."
+                                });
+
+                            });
+
+                        }
+
+
+                        const idPedido =
+                            resultado.insertId;
+
+
+                        /*
+                            Guardamos cada detalle.
+                        */
+
+                        let procesados = 0;
+
+
+                        detalles.forEach(detalle => {
+
+                            const sqlDetalle = `
+                                INSERT INTO detalle_pedido
+                                (
+                                    id_pedido,
+                                    id_producto,
+                                    cantidad,
+                                    precio_unitario,
+                                    subtotal
+                                )
+                                VALUES (?, ?, ?, ?, ?)
+                            `;
+
+
+                            conexion.query(
+                                sqlDetalle,
+                                [
+                                    idPedido,
+                                    detalle.id_producto,
+                                    detalle.cantidad,
+                                    detalle.precio,
+                                    detalle.subtotal
+                                ],
+                                (error) => {
+
+                                    if(error){
+
+                                        return conexion.rollback(() => {
+
+                                            console.error(
+                                                "❌ Error al guardar detalle:",
+                                                error
+                                            );
+
+                                            res.status(500).json({
+                                                mensaje:
+                                                    "No se pudo guardar el detalle del pedido."
+                                            });
+
+                                        });
+
+                                    }
+
+
+                                    /*
+                                        Actualizamos el stock.
+                                    */
+
+                                    const sqlStock = `
+                                        UPDATE producto
+                                        SET stock = stock - ?
+                                        WHERE id_producto = ?
+                                    `;
+
+
+                                    conexion.query(
+                                        sqlStock,
+                                        [
+                                            detalle.cantidad,
+                                            detalle.id_producto
+                                        ],
+                                        (error) => {
+
+                                            if(error){
+
+                                                return conexion.rollback(() => {
+
+                                                    console.error(
+                                                        "❌ Error al actualizar stock:",
+                                                        error
+                                                    );
+
+                                                    res.status(500).json({
+                                                        mensaje:
+                                                            "No se pudo actualizar el stock."
+                                                    });
+
+                                                });
+
+                                            }
+
+
+                                            procesados++;
+
+
+                                            /*
+                                                Cuando todos los detalles
+                                                fueron procesados,
+                                                confirmamos la transacción.
+                                            */
+
+                                            if(
+                                                procesados ===
+                                                detalles.length
+                                            ){
+
+                                                conexion.commit(
+                                                    error => {
+
+                                                        if(error){
+
+                                                            return conexion.rollback(
+                                                                () => {
+
+                                                                    console.error(
+                                                                        "❌ Error al confirmar pedido:",
+                                                                        error
+                                                                    );
+
+                                                                    res.status(500).json({
+                                                                        mensaje:
+                                                                            "No se pudo confirmar el pedido."
+                                                                    });
+
+                                                                }
+                                                            );
+
+                                                        }
+
+
+                                                        console.log(
+                                                            "✅ Pedido creado:",
+                                                            idPedido
+                                                        );
+
+
+                                                        res.status(201).json({
+
+                                                            mensaje:
+                                                                "Pedido creado correctamente.",
+
+                                                            id_pedido:
+                                                                idPedido,
+
+                                                            total:
+                                                                total
+
+                                                        });
+
+                                                    }
+                                                );
+
+                                            }
+
+                                        }
+                                    );
+
+                                }
+                            );
+
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+    });
+
+});
 
 /*=========================================
         INICIAR SERVIDOR

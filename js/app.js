@@ -21,6 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     contadorCarrito();
 
+    gestionarSesion();
+
+    cargarProductos();
+
 });
 
 
@@ -40,6 +44,122 @@ function iniciarMenu(){
         menu.classList.toggle("hidden");
 
     });
+
+}
+/*=========================================
+        SESIÓN DEL USUARIO
+=========================================*/
+
+function gestionarSesion(){
+
+    const usuarioGuardado =
+        localStorage.getItem("usuarioActivo");
+
+    if(!usuarioGuardado) return;
+
+    try{
+
+        const usuario =
+            JSON.parse(usuarioGuardado);
+
+        const menu =
+            document.querySelector("#menu");
+
+        if(!menu) return;
+
+        /*
+            Buscamos el enlace de inicio de sesión
+            para reemplazarlo por la información
+            del usuario autenticado.
+        */
+
+        const enlaces =
+            menu.querySelectorAll("a");
+
+        enlaces.forEach(enlace => {
+
+            if(
+                enlace.getAttribute("href") ===
+                "login.html"
+            ){
+
+                const li = enlace.parentElement;
+
+                li.innerHTML = `
+                    <span class="font-semibold">
+                        <i class="fa-solid fa-user mr-1"></i>
+                        Hola, ${usuario.nombre}
+                    </span>
+
+                    <button
+                        id="cerrarSesion"
+                        class="ml-3 text-yellow-300 hover:text-white">
+
+                        Cerrar sesión
+
+                    </button>
+                `;
+
+            }
+
+        });
+
+        const cerrarSesion =
+            document.querySelector("#cerrarSesion");
+
+        if(cerrarSesion){
+
+            cerrarSesion.addEventListener(
+                "click",
+                cerrarSesionUsuario
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "❌ Error al recuperar la sesión:",
+            error
+        );
+
+        localStorage.removeItem(
+            "usuarioActivo"
+        );
+
+    }
+
+}
+
+
+/*=========================================
+        CERRAR SESIÓN
+=========================================*/
+
+function cerrarSesionUsuario(){
+
+    /*
+        Eliminamos la información del
+        usuario actualmente autenticado.
+    */
+
+    localStorage.removeItem(
+        "usuarioActivo"
+    );
+
+    /*
+        Mostramos mensaje antes de regresar
+        al inicio.
+    */
+
+    toast("Sesión cerrada correctamente.");
+
+    setTimeout(() => {
+
+        window.location.href =
+            "index.html";
+
+    },1000);
 
 }
 
@@ -204,33 +324,115 @@ function toast(mensaje){
 
 
 /*=========================================
-        BOTONES COMPRAR
+        AGREGAR PRODUCTOS AL CARRITO
 =========================================*/
 
 function iniciarBotonesComprar(){
 
-    const botones=document.querySelectorAll(".btn-comprar");
+    const botones =
+        document.querySelectorAll(".btn-comprar");
 
-    botones.forEach(btn=>{
 
-        btn.addEventListener("click",()=>{
+    botones.forEach(btn => {
 
-            toast("Producto agregado al carrito");
+        btn.addEventListener("click", () => {
 
-            let cantidad=Number(localStorage.getItem("carrito")) || 0;
+            // Obtener información del producto
+            const producto = {
 
-            cantidad++;
+                id_producto:
+                    Number(btn.dataset.id),
 
-            localStorage.setItem("carrito",cantidad);
+                nombre:
+                    btn.dataset.nombre,
 
+                descripcion:
+                    btn.dataset.descripcion,
+
+                tipo:
+                    btn.dataset.tipo,
+
+                precio:
+                    Number(btn.dataset.precio),
+
+                cantidad: 1
+
+            };
+
+
+            // Obtener carrito existente
+            let carrito =
+                JSON.parse(
+                    localStorage.getItem(
+                        "carritoProductos"
+                    )
+                ) || [];
+
+
+            // Buscar si el producto ya existe
+            const productoExistente =
+                carrito.find(
+                    item =>
+                        Number(item.id_producto) ===
+                        producto.id_producto
+                );
+
+
+            if(productoExistente){
+
+                productoExistente.cantidad++;
+
+            }else{
+
+                carrito.push(producto);
+
+            }
+
+
+            // Guardar carrito
+            localStorage.setItem(
+                "carritoProductos",
+                JSON.stringify(carrito)
+            );
+
+
+            // Mantener contador anterior
+            let cantidadCarrito =
+                Number(
+                    localStorage.getItem(
+                        "carrito"
+                    )
+                ) || 0;
+
+            cantidadCarrito++;
+
+            localStorage.setItem(
+                "carrito",
+                cantidadCarrito
+            );
+
+
+            // Actualizar contador
             contadorCarrito();
+
+
+            // Mostrar mensaje
+            toast(
+                producto.nombre +
+                " agregado al carrito."
+            );
+
+
+            console.log(
+                "🛒 Producto agregado:",
+                producto
+            );
 
         });
 
     });
 
 }
-
 
 /*=========================================
         CONTADOR CARRITO
@@ -331,3 +533,149 @@ window.onload=()=>{
     }
 
 };
+
+/*=========================================
+        CARGAR PRODUCTOS DESDE MYSQL
+=========================================*/
+
+async function cargarProductos(){
+
+    const contenedor =
+        document.querySelector(".productos");
+
+    if(!contenedor) return;
+
+    try{
+
+        const respuesta = await fetch(
+            "http://localhost:3000/productos"
+        );
+
+        if(!respuesta.ok){
+
+            throw new Error(
+                "No se pudieron consultar los productos."
+            );
+
+        }
+
+        const productos =
+            await respuesta.json();
+
+        /*
+            Limpiamos los productos escritos
+            directamente en HTML.
+        */
+
+        contenedor.innerHTML = "";
+
+        /*
+            Generamos las tarjetas utilizando
+            la información proveniente de MySQL.
+        */
+
+        productos.forEach(producto => {
+
+            const tarjeta =
+                document.createElement("div");
+
+            tarjeta.className =
+                "card bg-white rounded-xl shadow-lg overflow-hidden fade";
+
+            tarjeta.innerHTML = `
+
+                <div class="p-6">
+
+                    <div class="flex justify-between items-start">
+
+                        <h3 class="text-2xl font-bold">
+
+                            ${producto.nombre}
+
+                        </h3>
+
+                        <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">
+
+                            ${producto.tipo}
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-gray-600 mt-2">
+
+                        ${producto.descripcion}
+
+                    </p>
+
+                    <p class="text-green-700 text-3xl font-bold mt-4">
+
+                        $${formatearPrecio(producto.precio)}
+
+                    </p>
+
+                    <p class="text-gray-500 mt-2">
+
+                        Stock disponible:
+                        ${producto.stock}
+
+                    </p>
+
+                    <button
+    class="btn-comprar bg-green-700 text-white w-full py-3 rounded mt-5"
+    data-id="${producto.id_producto}"
+    data-nombre="${producto.nombre}"
+    data-descripcion="${producto.descripcion || ""}"
+    data-tipo="${producto.tipo}"
+    data-precio="${producto.precio}"
+    data-stock="${producto.stock}">
+    Agregar al carrito
+</button>
+
+                </div>
+
+            `;
+
+            contenedor.appendChild(tarjeta);
+
+        });
+
+        /*
+            Los botones son creados después de cargar
+            los productos, por eso debemos iniciar
+            nuevamente su funcionamiento.
+        */
+
+        iniciarBotonesComprar();
+
+        console.log(
+            "✅ Productos cargados desde MySQL."
+        );
+
+    }catch(error){
+
+        console.error(
+            "❌ Error al cargar productos:",
+            error
+        );
+
+        toast(
+            "No se pudieron cargar los productos."
+        );
+
+    }
+
+}
+
+
+/*=========================================
+        FORMATEAR PRECIO
+=========================================*/
+
+function formatearPrecio(precio){
+
+    return Number(precio).toLocaleString(
+        "es-CO"
+    );
+
+}

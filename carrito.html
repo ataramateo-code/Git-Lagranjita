@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>La Granjita | Carrito</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="css/responsive.css">
+
+    <script
+        src="https://kit.fontawesome.com/7d9b6d89b5.js"
+        crossorigin="anonymous">
+    </script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ==========================
+        ENCABEZADO
+=========================== -->
+
+<header class="bg-green-700 text-white shadow-lg">
+
+    <div class="container mx-auto">
+
+        <div class="flex justify-between items-center py-4">
+
+            <div class="flex items-center">
+
+                <i
+                    class="fa-solid fa-egg text-5xl mr-3 text-yellow-300">
+                </i>
+
+                <div>
+
+                    <h1 class="text-3xl font-bold">
+                        La Granjita
+                    </h1>
+
+                    <p class="text-sm">
+                        Huevos y Gallinas Frescas
+                    </p>
+
+                </div>
+
+            </div>
+
+            <nav>
+
+                <ul class="flex space-x-6 text-lg items-center">
+
+                    <li>
+                        <a href="index.html">
+                            Inicio
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="productos.html">
+                            Productos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="carrito.html">
+                            Carrito 🛒
+                            <span
+                                id="contadorCarrito"
+                                class="bg-red-600 px-2 py-1 rounded-full text-sm">
+                                0
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ==========================
+        CARRITO
+=========================== -->
+
+<section class="container mx-auto py-12">
+
+    <h2 class="text-4xl font-bold text-green-700 mb-10">
+
+        <i class="fa-solid fa-cart-shopping mr-2"></i>
+
+        Mi carrito
+
+    </h2>
+
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+
+        <!-- ==========================
+                PRODUCTOS
+        =========================== -->
+
+        <div
+            id="listaCarrito"
+            class="md:col-span-2 space-y-5">
+
+        </div>
+
+
+        <!-- ==========================
+                RESUMEN
+        =========================== -->
+
+        <div
+            class="bg-white rounded-xl shadow-lg p-6 h-fit">
+
+            <h3 class="text-2xl font-bold mb-6">
+
+                Resumen del pedido
+
+            </h3>
+
+            <div class="flex justify-between mb-4">
+
+                <span>
+                    Productos
+                </span>
+
+                <span id="totalProductos">
+                    0
+                </span>
+
+            </div>
+
+            <div class="border-t pt-4">
+
+                <div class="flex justify-between">
+
+                    <span class="text-xl font-bold">
+                        Total
+                    </span>
+
+                    <span
+                        id="totalCarrito"
+                        class="text-2xl font-bold text-green-700">
+
+                        $0
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button
+                id="btnComprar"
+                class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg mt-6">
+
+                <i class="fa-solid fa-credit-card mr-2"></i>
+
+                Continuar compra
+
+            </button>
+
+            <button
+                id="btnVaciar"
+                class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg mt-3">
+
+                <i class="fa-solid fa-trash mr-2"></i>
+
+                Vaciar carrito
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================
+        PIE DE PÁGINA
+=========================== -->
+
+<footer class="bg-gray-900 text-white py-8">
+
+    <div class="container mx-auto text-center">
+
+        <h3 class="text-xl font-bold">
+            La Granjita
+        </h3>
+
+        <p class="mt-2">
+            Venta de huevos y gallinas de excelente calidad.
+        </p>
+
+        <p class="mt-5 text-gray-400">
+
+            ©
+            <span id="anio"></span>
+            La Granjita
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="js/app.js"></script>
+
+<script src="js/carrito.js"></script>
+
+</body>
+
+</html>
