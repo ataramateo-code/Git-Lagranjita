@@ -1,4 +1,3 @@
-
 /*=========================================
         LA GRANJITA
         registro.js
@@ -13,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 /*=========================================
         REGISTRO
@@ -31,6 +31,7 @@ async function registrarUsuario(e) {
     const password = document.getElementById("password").value;
     const confirmar = document.getElementById("confirmar").value;
 
+
     /*=========================================
             VALIDACIONES
     =========================================*/
@@ -39,34 +40,81 @@ async function registrarUsuario(e) {
         !validarNombre(nombre) ||
         !validarNombre(apellido)
     ) {
-        mostrarMensaje("Ingrese nombres y apellidos válidos.", false);
+
+        mostrarMensaje(
+            "Ingrese nombres y apellidos válidos.",
+            false
+        );
+
         return;
     }
+
 
     if (documento.length < 6) {
-        mostrarMensaje("Documento inválido.", false);
+
+        mostrarMensaje(
+            "Documento inválido.",
+            false
+        );
+
         return;
     }
+
+
+    if (!fecha) {
+
+        mostrarMensaje(
+            "Seleccione su fecha de nacimiento.",
+            false
+        );
+
+        return;
+    }
+
 
     if (!validarCorreo(correo)) {
-        mostrarMensaje("Correo electrónico incorrecto.", false);
+
+        mostrarMensaje(
+            "Correo electrónico incorrecto.",
+            false
+        );
+
         return;
     }
+
 
     if (!validarTelefono(telefono)) {
-        mostrarMensaje("Número de celular incorrecto.", false);
+
+        mostrarMensaje(
+            "Número de celular incorrecto.",
+            false
+        );
+
         return;
     }
+
 
     if (password.length < 6) {
-        mostrarMensaje("La contraseña debe tener mínimo 6 caracteres.", false);
+
+        mostrarMensaje(
+            "La contraseña debe tener mínimo 6 caracteres.",
+            false
+        );
+
         return;
     }
 
+
     if (password !== confirmar) {
-        mostrarMensaje("Las contraseñas no coinciden.", false);
+
+        mostrarMensaje(
+            "Las contraseñas no coinciden.",
+            false
+        );
+
         return;
     }
+
 
     /*=========================================
             ENVIAR DATOS A NODE.JS
@@ -74,23 +122,32 @@ async function registrarUsuario(e) {
 
     try {
 
-        const respuesta = await fetch("http://localhost:3000/registro", {
-            method: "POST",
+        const respuesta = await fetch(
+            "http://localhost:3000/registro",
+            {
+                method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            body: JSON.stringify({
-                nombre: nombre,
-                apellido: apellido,
-                correo: correo,
-                telefono: telefono,
-                password: password
-            })
-        });
+                body: JSON.stringify({
+
+                    nombre: nombre,
+                    apellido: apellido,
+                    documento: documento,
+                    fecha: fecha,
+                    correo: correo,
+                    telefono: telefono,
+                    password: password
+
+                })
+            }
+        );
+
 
         const datos = await respuesta.json();
+
 
         /*=========================================
                 RESPUESTA DEL SERVIDOR
@@ -98,25 +155,43 @@ async function registrarUsuario(e) {
 
         if (!respuesta.ok) {
 
-            mostrarMensaje(datos.mensaje, false);
+            mostrarMensaje(
+                datos.mensaje,
+                false
+            );
+
             return;
         }
+
 
         /*=========================================
                 REGISTRO EXITOSO
         =========================================*/
 
-        mostrarMensaje(datos.mensaje, true);
+        mostrarMensaje(
+            datos.mensaje,
+            true
+        );
 
-        document.getElementById("formRegistro").reset();
+
+        document
+            .getElementById("formRegistro")
+            .reset();
+
 
         setTimeout(() => {
+
             window.location.href = "login.html";
+
         }, 2500);
+
 
     } catch (error) {
 
-        console.error("Error al conectar con el servidor:", error);
+        console.error(
+            "Error al conectar con el servidor:",
+            error
+        );
 
         mostrarMensaje(
             "No se pudo conectar con el servidor. Verifique que Node.js esté ejecutándose.",
@@ -125,6 +200,7 @@ async function registrarUsuario(e) {
     }
 
 }
+
 
 /*=========================================
         VALIDACIONES
@@ -136,11 +212,13 @@ function validarNombre(texto) {
 
 }
 
+
 function validarCorreo(correo) {
 
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
 
 }
+
 
 function validarTelefono(numero) {
 
@@ -148,15 +226,19 @@ function validarTelefono(numero) {
 
 }
 
+
 /*=========================================
         MENSAJES
 =========================================*/
 
 function mostrarMensaje(texto, correcto) {
 
-    const mensaje = document.getElementById("mensajeRegistro");
+    const mensaje =
+        document.getElementById("mensajeRegistro");
+
 
     mensaje.classList.remove("hidden");
+
 
     if (correcto) {
 
@@ -177,9 +259,12 @@ function mostrarMensaje(texto, correcto) {
         mensaje.classList.add("bg-red-100");
         mensaje.classList.add("border-red-500");
         mensaje.classList.add("text-red-700");
+
     }
 
+
     mensaje.innerHTML = `
+
         <div class="flex items-center">
 
             <i class="fa-solid fa-circle-info text-3xl mr-4"></i>
@@ -187,7 +272,9 @@ function mostrarMensaje(texto, correcto) {
             <div>
 
                 <h3 class="font-bold text-xl">
+
                     ${correcto ? "Proceso exitoso" : "Error"}
+
                 </h3>
 
                 <p>${texto}</p>
@@ -195,12 +282,15 @@ function mostrarMensaje(texto, correcto) {
             </div>
 
         </div>
+
     `;
 
+
     window.scrollTo({
+
         top: 0,
         behavior: "smooth"
+
     });
 
 }
-

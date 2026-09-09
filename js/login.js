@@ -10,60 +10,142 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
 /*=========================================
         LOGIN
 =========================================*/
 
 function iniciarLogin() {
 
-    const formulario = document.getElementById("formLogin");
+    const formulario =
+        document.getElementById("formLogin");
 
     if (!formulario) return;
 
-    formulario.addEventListener("submit", function (e) {
+    formulario.addEventListener(
+        "submit",
+        async function (e) {
 
-        e.preventDefault();
+            e.preventDefault();
 
-        const correo = document.getElementById("correo").value.trim();
-        const password = document.getElementById("password").value;
+            const correo =
+                document.getElementById("correo").value.trim();
 
-        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            const password =
+                document.getElementById("password").value;
 
-        const usuario = usuarios.find(u =>
-            u.correo === correo &&
-            u.password === password
-        );
 
-        if (!usuario) {
+            /*=========================================
+                    VALIDAR CAMPOS
+            =========================================*/
 
-            mostrarMensaje(
-                "Correo o contraseña incorrectos.",
-                false
-            );
+            if (!correo || !password) {
 
-            return;
+                mostrarMensaje(
+                    "Ingrese su correo y contraseña.",
+                    false
+                );
+
+                return;
+            }
+
+
+            /*=========================================
+                    ENVIAR DATOS A NODE.JS
+            =========================================*/
+
+            try {
+
+                const respuesta = await fetch(
+                    "http://localhost:3000/login",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            correo: correo,
+                            password: password
+
+                        })
+
+                    }
+                );
+
+
+                const datos =
+                    await respuesta.json();
+
+
+                /*=========================================
+                        ERROR DE AUTENTICACIÓN
+                =========================================*/
+
+                if (!respuesta.ok) {
+
+                    mostrarMensaje(
+                        datos.mensaje,
+                        false
+                    );
+
+                    return;
+                }
+
+
+                /*=========================================
+                        GUARDAR USUARIO ACTIVO
+                =========================================*/
+
+                localStorage.setItem(
+                    "usuarioActivo",
+                    JSON.stringify(datos.usuario)
+                );
+
+
+                /*=========================================
+                        LOGIN EXITOSO
+                =========================================*/
+
+                mostrarMensaje(
+                    "Bienvenido " +
+                    datos.usuario.nombre,
+                    true
+                );
+
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "index.html";
+
+                }, 2000);
+
+
+            } catch (error) {
+
+                console.error(
+                    "❌ Error al conectar con el servidor:",
+                    error
+                );
+
+                mostrarMensaje(
+                    "No se pudo conectar con el servidor. Verifique que Node.js esté ejecutándose.",
+                    false
+                );
+
+            }
 
         }
-
-        localStorage.setItem(
-            "usuarioActivo",
-            JSON.stringify(usuario)
-        );
-
-        mostrarMensaje(
-            "Bienvenido " + usuario.nombre,
-            true
-        );
-
-        setTimeout(() => {
-
-            window.location.href = "index.html";
-
-        }, 2000);
-
-    });
+    );
 
 }
+
+
 
 /*=========================================
         MOSTRAR PASSWORD
